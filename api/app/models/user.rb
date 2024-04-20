@@ -30,4 +30,7 @@ class User < ApplicationRecord
   has_many :members
   has_many :spots, inverse_of: "spotter"
   has_one_attached :picture
+  def emoji
+    Random.new(id).rand(0x1F601..0x1F64F).chr('UTF-8')
+  end
 end

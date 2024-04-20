@@ -10,7 +10,7 @@ module Api::V1
     end
 
     def show
-      render json: current_resource_owner.teams.find(params[:id]), include: [:members, :spots]
+      render json: current_resource_owner.teams.find(params[:id]), include: [:members, :spots]， methods: [:leaderboard]
     end
 
     def create
