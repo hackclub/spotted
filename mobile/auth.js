@@ -1,19 +1,21 @@
 // https://github.com/gorails-screencasts/oauth-api-authentication/blob/master/expo-react-native-client/auth.js
 
-import { AuthSession, SecureStore } from 'expo';
+import * as SecureStore from 'expo-secure-store';
+import * as AuthSession from 'expo-auth-session';
 
 import { post, ENDPOINT } from './network';
 
-const APP_ID = 'd1fd38bf45771da9a602ed9762bf2d9c4004053b6c380b76322fc12a58a08442';
+const APP_ID = 'jPQoX0dOXmPdjW2Rna6Y0RfA0zQ29s6ny_9ZZcUNzEI';
 const TOKEN_KEY = 'token';
 export var token;
 
 export const isLoggedIn = () => {
-  return typeof SecureStore.getItem(TOKEN_KEY) !== "undefined"
+  return SecureStore.getItem(TOKEN_KEY) == null ? false : true;
 };
 
 export const login = async () => {
   let redirectUrl = AuthSession.getRedirectUrl();
+  console.log(redirectUrl)
   let result = await AuthSession.startAsync({
     authUrl:
     `${ENDPOINT}/oauth/authorize?response_type=code` +

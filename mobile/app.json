@@ -1,5 +1,6 @@
 {
   "expo": {
+    "originalFullName": "yo",
     "plugins": [
       [
         "expo-secure-store",

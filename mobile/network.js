@@ -2,7 +2,7 @@
 
 import { token } from './auth'
 
-export const ENDPOINT = "http://localhost:5000";
+export const ENDPOINT = "http://localhost:10524";
 
 export const get = (path, opts = {}) => {
   return makeRequest(path, opts)
