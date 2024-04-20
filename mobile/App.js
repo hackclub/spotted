@@ -1,113 +1,93 @@
+import { FontAwesome6 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { Camera } from "expo-camera";
-import { useRef, useState } from "react";
+import { useRef, useContext, useEffect, useState } from "react";
 import {
   Button,
   ImageBackground,
+  Pressable,
+  SafeAreaView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import {isLoggedIn, login} from './auth'
+import * as SecureStore from 'expo-secure-store';
+import * as AuthSession from 'expo-auth-session';
+import NavView from './views/NavView';
+import CameraView from './views/CameraView';
+import HomeView from './views/HomeView';
+import LeaderboardView from './views/LeaderboardView';
+import {
+  useAuthRequest,
+  makeRedirectUri,
+  exchangeCodeAsync,
+  DiscoveryDocument,
+} from "expo-auth-session";
+
+export const discovery = {
+  authorizationEndpoint: `http://localhost:10524/oauth/authorize`,
+  tokenEndpoint: `http://localhost:10524/oauth/token`,
+  revocationEndpoint: `http://localhost:10524//oauth/revoke`,
+};
+
+const redirectUri = makeRedirectUri();
 
 export default function App() {
-  const [status, requestPermission] = Camera.useCameraPermissions();
-  const [type, setType] = useState(Camera.Constants.Type.back);
-  const [lastPhotoURI, setLastPhotoURI] = useState(null);
-  const cameraRef = useRef(null);
+  const [authStatus, setAuthStatus] = useState(isLoggedIn());
+  console.log({ authStatus })
 
-  if (!status?.granted) {
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: "jPQoX0dOXmPdjW2Rna6Y0RfA0zQ29s6ny_9ZZcUNzEI",
+      redirectUri,
+      scopes: ["read", "write"]
+    },
+    discovery,
+  );
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (response?.type == "success") {
+      setLoading(true);
+      exchangeCodeAsync(
+        {
+          clientId,
+          redirectUri,
+          code: response.params.code,
+          extraParams: { code_verifier: request.codeVerifier },
+        },
+        discovery,
+      )
+        .then((r) => {
+          console.log(r.accessToken);
+        })
+        .catch(() => setLoading(false));
+    }
+  }, [response]);
+
+  if (!authStatus) {
     return (
-      <View
-        style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
-      >
-        <Text style={{ textAlign: "center" }}>
-          We need access to your camera
-        </Text>
-        <Button onPress={requestPermission} title="Grant permission" />
+      <View style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+        <Button title="Sign in!" onPress={() => promptAsync()} />
+        
+        <Button title="Pretend to sign in" onPress={() => setAuthStatus(true)} />
       </View>
-    );
-  }
-
-  if (lastPhotoURI !== null) {
-    return (
-      <ImageBackground
-        source={{ uri: lastPhotoURI }}
-        style={{
-          flex: 1,
-          backgroundColor: "transparent",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            flex: 0.2,
-            alignSelf: "flex-end",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#666",
-            marginBottom: 40,
-            marginLeft: 20,
-          }}
-          onPress={() => {
-            setLastPhotoURI(null);
-          }}
-        >
-          <Text style={{ fontSize: 30, padding: 10, color: "white" }}>❌</Text>
-        </TouchableOpacity>
-      </ImageBackground>
     );
   }
 
   return (
-    <Camera style={{ flex: 1 }} type={type} ref={cameraRef}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "transparent",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            flex: 0.2,
-            alignSelf: "flex-end",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#666",
-            marginBottom: 40,
-            marginLeft: 20,
-          }}
-          onPress={() => {
-            setType(
-              type === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-            );
-          }}
-        >
-          <Text style={{ fontSize: 30, padding: 10, color: "white" }}>♻</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 0.2,
-            alignSelf: "flex-end",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#666",
-            marginBottom: 40,
-            marginLeft: 20,
-          }}
-          onPress={async () => {
-            if (cameraRef.current) {
-              let photo = await cameraRef.current.takePictureAsync();
-              setLastPhotoURI(photo.uri);
-            }
-          }}
-        >
-          <Text style={{ fontSize: 30, padding: 10, color: "white" }}>📸</Text>
-        </TouchableOpacity>
-      </View>
-    </Camera>
+    <NavView
+      Screen1={HomeView}
+      Screen2={CameraView}
+      Screen3={LeaderboardView}
+    />
   );
+  
 }
