@@ -20,7 +20,7 @@
               <%= spot.spotter.email %> 
             </td>
             <td class="align-middle">
-              <%= spot.spotted.email %> 
+              <%= spot.spotted.user.email %> 
             </td>
             <td class="align-middle" style="width: 70px"><%= link_to 'Show', spot, class: 'btn btn-sm btn-outline-primary' %></td>
             <td class="align-middle" style="width: 70px"><%= link_to 'Edit', edit_spot_path(spot), class: 'btn btn-sm btn-outline-secondary' %></td>

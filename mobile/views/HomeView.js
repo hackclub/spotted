@@ -15,9 +15,12 @@ import {
 import * as SecureStore from 'expo-secure-store';
 import * as AuthSession from 'expo-auth-session';
 import AuthContext from "../auth";
+import useSWR, { preload, useSWRConfig, mutate } from "swr";
 
 export default function HomeView () {
-    const { token } = useContext(AuthContext);
+    const { token, team } = useContext(AuthContext);
+    const { fetcher, mutate } = useSWRConfig();
+    const { data } = useSWR(`api/v1/teams/${team}`);
     return (
         <View style={{
             flex: 1,

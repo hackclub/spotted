@@ -19,6 +19,7 @@ import * as AuthSession from 'expo-auth-session';
 import AuthContext from "../auth";
 import useSWR, { preload, useSWRConfig, mutate } from "swr";
 
+// needs current user
 
 function Tab({ bg, name, onClick, style }) {
     return (
@@ -59,8 +60,6 @@ export default function NavView({
     const { token } = useContext(AuthContext);
     const { fetcher, mutate } = useSWRConfig();
     const { data } = useSWR(`api/v1/teams/`);
-    console.log(data)
-
     return (
 
         <View style={{
@@ -74,35 +73,6 @@ export default function NavView({
             }}>
 
                 <Current />
-            </View>
-            <View style={{
-                backgroundColor: 'white',
-                width: "100%",
-                marginTop: '50px'
-            }}>
-                <TouchableHighlight underlayColor="#AAAAAA" onPress={async () => {
-                    try {
-                        const body = new FormData();
-                        body.append("name", "Sam1");
-                        await fetch(`http://sourdough.local:3001/api/v1/me`,
-                            {
-                                method: "POST",
-                                headers: {
-                                    Authorization: `Bearer ${token}`,
-                                },
-                                body,
-                            },
-                        );
-                        mutate("/api/v1/me")
-                    } catch (e) {
-                        Alert.alert("Something went wrong.");
-                    } finally {
-                        Alert.alert("Something went well.");
-                    }
-                }}>
-                    <Text>{JSON.stringify(data)}</Text>
-                </TouchableHighlight>
-
             </View>
 
             <SafeAreaView style={{

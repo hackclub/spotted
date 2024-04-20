@@ -18,6 +18,7 @@ import NavView from './views/NavView';
 import CameraView from './views/CameraView';
 import HomeView from './views/HomeView';
 import LeaderboardView from './views/LeaderboardView';
+import CreateTeamView from './views/CreateTeamView';
 import { SWRConfig } from "swr";
 import {
   useAuthRequest,
@@ -65,6 +66,8 @@ export default function App() {
 
   const [token, setToken] = useState(null);
 
+  const [team, setTeam] = useState(null);
+
   const fetcher = useCallback(
     (url) =>
       fetch("http://sourdough.local:3001/" + url, {
@@ -90,15 +93,19 @@ export default function App() {
     (async () => {
       const token = await SecureStorage.getItemAsync("token");
       setToken(token);
+      const team = await SecureStorage.getItemAsync("team");
+      setTeam(team);
       setLoading(false);
     })();
   }, []);
 
   useEffect(() => {
+    if (typeof team == "string") SecureStorage.setItemAsync("team", team);
+  }, [team]);
+  
+  useEffect(() => {
     if (typeof token == "string") SecureStorage.setItemAsync("token", token);
   }, [token]);
-
-  
 
   useEffect(() => {
     if (response?.type == "success") {
@@ -112,8 +119,18 @@ export default function App() {
         },
         discovery,
       )
-        .then((r) => {
+        .then(async (r) => {
           setToken(r.accessToken);
+          await fetch(`http://sourdough.local:3001/api/v1/me`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((r) => r.json())
+            .then((r) => {
+              setTeam(r.teams.length > 0 ? r.teams[0].id : null);
+            });
         })
         .catch(() => setLoading(false));
     }
@@ -134,17 +151,21 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ token, team, setToken, setTeam }}>
       <SWRConfig
         value={{
           fetcher,
         }}
       >
-        <NavView
-          Screen1={HomeView}
-          Screen2={CameraView}
-          Screen3={LeaderboardView}
-        />
+        {
+          team ? 
+            <NavView
+              Screen1={HomeView}
+              Screen2={CameraView}
+              Screen3={LeaderboardView}
+            /> : 
+            <CreateTeamView /> 
+        }
       </SWRConfig>
     </AuthContext.Provider>
   );
