@@ -5,6 +5,8 @@ class Team < ApplicationRecord
 
   validates :creator, :name, presence: true
   
+  has_many :members
+  
   has_one_attached :logo
 end
 
