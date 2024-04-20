@@ -19,12 +19,6 @@
   <div class="col">
     <% if current_user %>
       <p>You're not logged in, follow the links below to explore the example app.</p>
-      <p>
-        <%= link_to 'Projects', projects_path, class: 'btn btn-primary'%>
-        <%= link_to 'OAuth Applications', oauth_applications_path, class: 'btn btn-primary'%>
-        <%= link_to 'Authorized Apps', oauth_authorized_applications_path, class: 'btn btn-primary'%>
-        <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'btn btn-secondary'%>
-      </p>
     <% else %>
       <p>Sign in below to start using the example app:</p>
       <p><%= link_to 'Sign in', new_user_session_path, class: 'btn btn-primary' %></p>
@@ -34,6 +28,6 @@
 
 <div class="row">
   <div class="col">
-    <%= readme_to_markdown %>
+    yo!
   </div>
 </div>

@@ -25,4 +25,9 @@ class User < ApplicationRecord
            as: :owner
 
   has_many :projects, dependent: :delete_all
+  
+  has_many :teams, inverse_of: "creator" 
+  has_many :members
+  has_many :spots, inverse_of: "spotter"
+  has_one_attached :picture
 end

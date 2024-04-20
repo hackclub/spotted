@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col">
+    <h2>Spot #<%= @spot.id %></h2>
+    
+    <strong>File:</strong>
+    <% if @spot.image.attached? %>
+      <%= image_tag @spot.image, width: '250px' %>
+    <% end %>
+    
+    <br />
+
+    <%= link_to 'Edit', edit_spot_path(@spot) %> |
+    <%= link_to 'Back', spots_path %>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<%= form_with(model: member, local: true) do |form| %>
+  <% if member.errors.any? %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <h5>
+        <%= pluralize(member.errors.count, "error") %> prohibited this member from being saved:
+      </h5>
+
+      <ul style="margin: 0">
+        <% member.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <% end %>
+  
+  <div class="form-group">
+    <%= form.label :team_id %>
+    <%= form.text_field :team_id, class: 'form-control', id: :team_id %>
+  </div>
+
+  <p>
+    <%= form.submit class: 'btn btn-primary' %>
+  </p>
+<% end %>

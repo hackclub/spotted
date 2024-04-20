@@ -7,5 +7,13 @@ module Api::V1
     def me
       render json: current_resource_owner
     end
+    
+    def update
+      if current_resource_owner.update(params.require(:user).permit(:name, :picture))
+        render json: current_resource_owner
+      else
+        render json: current_resource_owner.errors, status: :unprocessable_entity
+      end
+    end
   end
 end

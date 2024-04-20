@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col">
+    <h2>Spots</h2>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Spotter</th>
+          <th scope="col">Spotted</th>
+          <th scope="col" colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @spots.each do |spot| %>
+          <tr>
+            <th class="align-middle" scope="row"><%= spot.id %></th>
+            <td class="align-middle">
+              <%= spot.spotter.email %> 
+            </td>
+            <td class="align-middle">
+              <%= spot.spotted.email %> 
+            </td>
+            <td class="align-middle" style="width: 70px"><%= link_to 'Show', spot, class: 'btn btn-sm btn-outline-primary' %></td>
+            <td class="align-middle" style="width: 70px"><%= link_to 'Edit', edit_spot_path(spot), class: 'btn btn-sm btn-outline-secondary' %></td>
+            <td class="align-middle" style="width: 70px"><%= link_to 'Destroy', spot, class: 'btn btn-sm btn-outline-danger', method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <%= link_to 'New spot', new_spot_path %>
+  </div>
+</div>
