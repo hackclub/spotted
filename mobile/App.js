@@ -1,3 +1,6 @@
+import { FontAwesome6 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { Camera } from "expo-camera";
 import { useRef, useState } from "react";
 import {
@@ -9,26 +12,26 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import {isLoggedIn, login} from './auth'
 
-function Tab ({ name, onClick }) {
+function Tab ({ bg, name, onClick }) {
   return (
-    <TouchableOpacity onPress={onClick}>
+    <TouchableOpacity style={{ flexGrow: 1, flexBasis: "auto" }} onPress={onClick}>
       <View style={{
-        backgroundColor: 'white',
+        backgroundColor: bg,
         height: 70,
         justifyContent: "center",
         alignItems: "center",
-        flexGrow: 1
+        flexGrow: 1,
+        flexShrink: 0,
+        flexBasis: "auto",
       }} onPointerDown={onClick}>
         <View style={{
           minWidth: 100,
           justifyContent: "center",
           alignItems: "center",
         }}>
-          <Text style={{
-            fontWeight: "bold",
-            color: "black"
-          }}>{name}</Text>
+          {name}
         </View>
       </View>
     </TouchableOpacity>
@@ -65,11 +68,47 @@ function Nav ({
       }}>
         <View style={{
           flexDirection: "row",
-          justifyContent: "space-around"
+          justifyContent: "space-between",
+          width: "100%",
+          gap: "0px"
         }}>
-          <Tab name="Review" onClick={() => setActiveTab(0)} />
-          <Tab name="Capture" onClick={() => setActiveTab(1)} />
-          <Tab name="Configure" onClick={() => setActiveTab(2)} />
+          <Tab name={
+            <View style={{
+              flexDirection: "column",
+              gap: 6,
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+              <Entypo name="home" size={24} color="black" />
+              <Text>Home</Text>
+            </View>
+          } onClick={() => setActiveTab(0)} />
+          <Tab bg={activeTab == 1 ? "red" : "green"} name={
+            <View style={{
+              flexDirection: "column",
+              gap: 6,
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+              {activeTab == 1 ? <>
+                <FontAwesome6 name="circle-dot" size={40} color="black" />
+              </> : <>
+                <Entypo name="camera" size={24} color="black" />
+                <Text>Camera</Text>
+              </>}
+            </View>
+          } onClick={() => setActiveTab(1)} />
+          <Tab name={
+            <View style={{
+              flexDirection: "column",
+              gap: 6,
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+              <MaterialCommunityIcons name="podium" size={24} color="black" />
+              <Text>Leaderboard</Text>
+            </View>
+          } onClick={() => setActiveTab(2)} />
         </View>
       </SafeAreaView>
     </View>
@@ -162,6 +201,14 @@ function Cam () {
 }
 
 export default function App() {
+
+  if(!isLoggedIn()){
+      return (
+        <View>
+          <Button title="Sign in!" onPress={() => login()} />
+        </View>
+      )
+  }
 
   return (
   <Nav screen2={<Cam />} />
