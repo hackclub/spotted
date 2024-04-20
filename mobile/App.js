@@ -16,7 +16,7 @@ import * as SecureStorage from 'expo-secure-store';
 import * as AuthSession from 'expo-auth-session';
 import NavView from './views/NavView';
 import CameraView from './views/CameraView';
-import HomeView from './views/HomeView';
+import HomeView from './views/ActivityView';
 import LeaderboardView from './views/LeaderboardView';
 import CreateTeamView from './views/CreateTeamView';
 import { SWRConfig } from "swr";
