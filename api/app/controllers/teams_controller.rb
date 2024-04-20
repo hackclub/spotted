@@ -6,7 +6,7 @@ class TeamsController < ApplicationController
 
   # GET /teams
   def index
-    @teams = current_user.teams.all
+    @teams = current_user.teams.all.includes(:members)
   end
 
   # GET /teams/1

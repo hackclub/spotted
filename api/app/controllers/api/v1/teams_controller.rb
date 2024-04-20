@@ -6,11 +6,11 @@ module Api::V1
     before_action -> { doorkeeper_authorize! :write }, only: %i[create update destroy]
 
     def index
-      render json: current_resource_owner.teams
+      render json: current_resource_owner.teams.all, include: [:members, :spots]
     end
 
     def show
-      render json: current_resource_owner.teams.find(params[:id])
+      render json: current_resource_owner.teams.find(params[:id]), include: [:members, :spots]
     end
 
     def create

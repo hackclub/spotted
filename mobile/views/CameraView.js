@@ -2,7 +2,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Camera } from "expo-camera";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import {
     Button,
     ImageBackground,
@@ -12,11 +12,17 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { isLoggedIn, login } from '../auth'
 import * as SecureStore from 'expo-secure-store';
 import * as AuthSession from 'expo-auth-session';
+import AuthContext from "../auth";
+import useSWR, { preload, useSWRConfig, mutate } from "swr";
 
 export default function CameraView() {
+
+    const { token } = useContext(AuthContext);
+    const { fetcher, mutate } = useSWRConfig();
+    const { data } = useSWR(`api/v1/teams/1`);
+    console.log(data)
 
     const [status, requestPermission] = Camera.useCameraPermissions();
     const [type, setType] = useState(Camera.Constants.Type.back);
@@ -68,7 +74,7 @@ export default function CameraView() {
     }
 
     return (
-        <Camera style={{ flex: 1 }} type={type} ref={cameraRef} zoom={.5}>
+        <Camera style={{ flex: 1 }} type={type} ref={cameraRef}>
             <View
                 style={{
                     flex: 1,

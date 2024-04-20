@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       resources :members
       resources :spots
       get '/me' => 'credentials#me'
-      patch '/user' => 'credentials#update'
+      post '/me' => 'credentials#update'
     end
   end
 

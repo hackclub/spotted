@@ -14,7 +14,7 @@ class Spot < ApplicationRecord
       points += 300
     end
   end
-  
+
   def validate
     unless Spot.where(spotted_id:, spotter_id:).where("created_at > ?", 1.hours.ago).any?
       errors.add(:base, "You can only spot people once every hour.")

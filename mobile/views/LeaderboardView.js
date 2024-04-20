@@ -12,9 +12,9 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { isLoggedIn, login } from '../auth'
 import * as SecureStore from 'expo-secure-store';
 import * as AuthSession from 'expo-auth-session';
+import AuthContext from "../auth";
 
 export default function LeaderboardView () {
     return (

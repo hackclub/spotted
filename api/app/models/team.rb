@@ -8,5 +8,7 @@ class Team < ApplicationRecord
   has_many :members
   
   has_one_attached :logo
+  has_many :members
+  has_many :spots, through: :members
 end
 

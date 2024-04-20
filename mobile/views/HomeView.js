@@ -2,7 +2,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Camera } from "expo-camera";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import {
     Button,
     ImageBackground,
@@ -12,11 +12,12 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { isLoggedIn, login } from '../auth'
 import * as SecureStore from 'expo-secure-store';
 import * as AuthSession from 'expo-auth-session';
+import AuthContext from "../auth";
 
 export default function HomeView () {
+    const { token } = useContext(AuthContext);
     return (
         <View style={{
             flex: 1,
@@ -24,7 +25,7 @@ export default function HomeView () {
             alignContent: "center"
         }}>
             <Text style={{ textAlign: "center" }}>
-                Home
+                Home {token}
             </Text>
         </View>
     )
