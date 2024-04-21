@@ -88,8 +88,7 @@ export default function CameraView() {
                         alignItems: "center",
                         justifyContent: "center",
                         backgroundColor: "#666",
-                        marginBottom: 40,
-                        marginLeft: 20,
+                        marginBottom: 40
                     }}
                     onPress={() => {
                         setLastPhotoURI(null);
@@ -118,8 +117,7 @@ export default function CameraView() {
                         alignItems: "center",
                         justifyContent: "center",
                         backgroundColor: "#666",
-                        marginBottom: 40,
-                        marginLeft: 20,
+                        marginBottom: 40
                     }}
                     onPress={async () => {
                         if (cameraRef.current) {
