@@ -11,6 +11,8 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  default_url_options[:host] = "spotted.underpass.clb.li"
+
   # Show full error reports.
   config.consider_all_requests_local = true
 
@@ -18,6 +20,7 @@ Rails.application.configure do
   config.server_timing = true
 
   config.hosts << "sourdough.local:3001"
+  config.hosts << "spotted.underpass.clb.li"
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

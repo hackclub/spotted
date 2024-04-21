@@ -1,3 +1,5 @@
+globalThis.HOST = "https://spotted.underpass.clb.li";
+const forceSignIn = false;
 import { FontAwesome6 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
@@ -29,10 +31,12 @@ import {
 import AuthContext from "./auth";
 
 export const discovery = {
-  authorizationEndpoint: `http://sourdough.local:3001/oauth/authorize`,
-  tokenEndpoint: `http://sourdough.local:3001/oauth/token`,
+  authorizationEndpoint: `${globalThis.HOST}/oauth/authorize`,
+  tokenEndpoint: `${globalThis.HOST}/oauth/token`,
   revocationEndpoint: `http://sourdough.local:3001//oauth/revoke`,
 };
+
+console.log(globalThis.HOST);
 
 const redirectUri = makeRedirectUri();
 
@@ -70,7 +74,7 @@ export default function App() {
 
   const fetcher = useCallback(
     (url) =>
-      fetch("http://sourdough.local:3001/" + url, {
+      fetch(`${globalThis.HOST}/` + url, {
         headers: { Authorization: `Bearer ${token}` },
       }).then(async (res) => {
         const body = await res.json();
@@ -123,7 +127,7 @@ export default function App() {
       )
         .then(async (r) => {
           setToken(r.accessToken);
-          await fetch(`http://sourdough.local:3001/api/v1/me`, {
+          await fetch(`${globalThis.HOST}/api/v1/me`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
@@ -139,7 +143,11 @@ export default function App() {
     }
   }, [response]);
 
-  if (!token || !team) {
+  console.log({
+    token, team, forceSignIn
+  })
+
+  if (!token || !team || forceSignIn) {
     return (
       <AuthContext.Provider value={{ token, setToken }}>
         <View style={{

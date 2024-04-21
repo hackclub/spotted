@@ -17,8 +17,10 @@ class Team < ApplicationRecord
       unless leaderboard[spot.spotter_id]
         leaderboard[spot.spotter_id] = {
           name: spot.spotter.name || spot.spotter.email,
+          last_spot_image: members.where(user_id: spot.spotter_id).first.last_spot_image,
           picture: spot.spotter.picture.attached? ? Rails.application.routes.url_helpers.url_for(spot.spotter.picture) : spot.spotter.emoji,
-          points: 0
+          points: 0,
+          id: members.where(user_id: spot.spotter_id).first.id
         }
       end
       puts leaderboard[spot.spotter_id]
@@ -28,8 +30,10 @@ class Team < ApplicationRecord
       unless leaderboard[member.user.id]
         leaderboard[member.user.id] = {
           name: member.user.name || member.user.email,
+          last_spot_image: member.last_spot_image,
           picture: member.user.picture.attached? ? Rails.application.routes.url_helpers.url_for(member.user.picture) : member.user.emoji,
-          points: 0
+          points: 0,
+          id: member.id
         }
       end
     end

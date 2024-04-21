@@ -2,12 +2,13 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Camera } from "expo-camera";
-import { useRef, useState, useContext } from "react";
+import { useRef, useState, useContext, useCallback } from "react";
 import {
     Button,
     Image,
     ImageBackground,
     Pressable,
+    RefreshControl,
     SafeAreaView,
     ScrollView,
     Text,
@@ -23,8 +24,17 @@ import useSWR, { preload, useSWRConfig, mutate } from "swr";
 export default function ActivityView () {
     const { token, team } = useContext(AuthContext);
     const { fetcher, mutate } = useSWRConfig();
+    const [refreshing, setRefreshing] = useState(false);
     const { data } = useSWR(`api/v1/teams/${team}`);
-    console.log(data)
+    console.log(data);
+
+const onRefresh = useCallback(() => {
+    console.log("ahhhhh")
+    setRefreshing(true);
+    mutate(`api/v1/teams/${team}`).then(() => {
+      setRefreshing(false);
+    });
+  }, []);
     return (
         <View style={{
             flex: 1,
@@ -33,15 +43,17 @@ export default function ActivityView () {
         }}>
             <ScrollView style={{
                 paddingHorizontal: 12
-            }}>
+            }} refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
                 <View style={{
                     paddingTop: 12
                 }}>
                     <Text style={{ textAlign: "left" }}>Recent activity in</Text>
-                    <Text style={{ textAlign: "left", fontSize: "30px" }}>{data.name}</Text>
+                    <Text style={{ textAlign: "left", fontSize: 30 }}>{data?.name}</Text>
                 </View>
                 {
-                    data.activity_log.map(log => {
+                    data?.activity_log.map(log => {
                         return (
                             <View style={{
                                 paddingTop: 12

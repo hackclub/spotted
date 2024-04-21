@@ -5,6 +5,8 @@
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
+    "atob": "^2.1.2",
+    "base64-js": "^1.5.1",
     "expo": "^50.0.1",
     "expo-auth-session": "~5.4.0",
     "expo-camera": "~14.0.1",

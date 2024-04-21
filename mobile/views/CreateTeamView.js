@@ -22,7 +22,7 @@ export default function CreateTeamView () {
         try {
             const body = new FormData();
             body.append("team_id", teamID);
-            let response = await fetch(`http://sourdough.local:3001/api/v1/members`,
+            let response = await fetch(`${globalThis.HOST}/api/v1/members`,
                 {
                     method: "POST",
                     headers: {
@@ -43,7 +43,7 @@ export default function CreateTeamView () {
             const body = new FormData();
             body.append("name", name);
             body.append("emoji", emoji);
-            let response = await fetch(`http://sourdough.local:3001/api/v1/teams`,
+            let response = await fetch(`${globalThis.HOST}/api/v1/teams`,
                 {
                     method: "POST",
                     headers: {

@@ -40,7 +40,7 @@ module Api::V1
     private
 
       def spot_params
-        params.require(:spot).permit(:spotted_id, :image)
+        params.permit(:spotted_id, :image)
       end
   end
 end
