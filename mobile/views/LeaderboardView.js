@@ -50,20 +50,28 @@ export default function LeaderboardView () {
                     <Text style={{ textAlign: "left", fontSize: 30 }}>{data?.name}'s Leaderboard</Text>
                 </View>
                 {
-                    data?.leaderboard.map(user => {
+                    data?.leaderboard.map((u, index) => {
                         return (
                             <View style={{
-                                paddingTop: 12
-                            }} key={user.name + user.picture}>
-                                <View style={{
-                                    backgroundColor: "green",
-                                    padding: 12,
-                                    borderRadius: 12,
-                                }}>
-                                    <Text style={{ textAlign: "left", paddingBottom: 12 }}>
-                                       {user.picture} {user.name} - {user.points}
-                                    </Text>
-                                </View>
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <Image source={{ uri: u.last_spot_image }} style={{
+                                    aspectRatio: 1,
+                                    borderRadius: 45
+                                }} width={40} />
+                                <Text style={{textAlign: 'center', fontSize: 20, flexGrow: 1}}>
+                                    {u.name}
+                                </Text>
+                                <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 800}}>
+                                    {u.points}
+                                </Text>
+                                <Image source={{ uri: "https://cloud-ewgxjx5ts-hack-club-bot.vercel.app/0acorn_png_clipart_picture.png" }} style={{
+                                    aspectRatio: 1,
+                                    borderRadius: 45
+                                }} width={10} />
                             </View>
                         )
                     }
