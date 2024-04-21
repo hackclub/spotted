@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col">
-    <h2>Log in</h2>
+    <h2 style="margin-top: 16px">Log in</h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="form-group">
@@ -26,12 +26,5 @@
     <% end %>
 
     <%= render "users/shared/links" %>
-  </div>
-
-  <div class="col">
-    <h4>Sign in as test user</h4>
-    <p>
-      A default user is already created for this example application. Use <code>user@example.com</code> and <code>doorkeeper</code> as login and password.
-    </p>
   </div>
 </div>
