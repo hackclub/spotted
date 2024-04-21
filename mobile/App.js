@@ -94,6 +94,8 @@ export default function App() {
       const token = await SecureStorage.getItemAsync("token");
       setToken(token);
       const team = await SecureStorage.getItemAsync("team");
+      console.log(team)
+      console.log("I RAN")
       setTeam(team);
       setLoading(false);
     })();
@@ -129,14 +131,15 @@ export default function App() {
           })
             .then((r) => r.json())
             .then((r) => {
-              setTeam(r.teams.length > 0 ? r.teams[0].id : null);
+              console.log(r)
+              setTeam(r.teams.length > 0 ? r.teams[0].id.toString() : null);
             });
         })
         .catch(() => setLoading(false));
     }
   }, [response]);
 
-  if (!token) {
+  if (!token || !team) {
     return (
       <AuthContext.Provider value={{ token, setToken }}>
         <View style={{
@@ -144,28 +147,36 @@ export default function App() {
           justifyContent: "center",
           alignItems: "center",
         }}>
+          
           <Button title="Sign in!" onPress={() => promptAsync()} />
         </View>
       </AuthContext.Provider>
     );
   }
 
+  console.log(team)
+
+  if(!team){
+    return (
+      <AuthContext.Provider value={{ token, setToken }}>
+        <CreateTeamView /> 
+      </AuthContext.Provider>
+    );
+  }
+
   return (
     <AuthContext.Provider value={{ token, team, setToken, setTeam }}>
+      {(console.log(team), null)}
       <SWRConfig
         value={{
           fetcher,
         }}
       >
-        {
-          team ? 
-            <NavView
-              Screen1={HomeView}
-              Screen2={CameraView}
-              Screen3={LeaderboardView}
-            /> : 
-            <CreateTeamView /> 
-        }
+        <NavView
+            Screen1={HomeView}
+            Screen2={CameraView}
+            Screen3={LeaderboardView}
+          />
       </SWRConfig>
     </AuthContext.Provider>
   );

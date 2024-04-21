@@ -24,6 +24,7 @@ export default function ActivityView () {
     const { token, team } = useContext(AuthContext);
     const { fetcher, mutate } = useSWRConfig();
     const { data } = useSWR(`api/v1/teams/${team}`);
+    console.log(data)
     return (
         <View style={{
             flex: 1,
