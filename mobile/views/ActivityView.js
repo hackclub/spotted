@@ -37,7 +37,7 @@ export default function ActivityView () {
                     paddingTop: 12
                 }}>
                     <Text style={{ textAlign: "left" }}>Recent activity in</Text>
-                    <Text style={{ textAlign: "left", fontSize: "30px" }}>Cal Hacks</Text>
+                    <Text style={{ textAlign: "left", fontSize: "30px" }}>{data.name}</Text>
                 </View>
                 {
                     data.activity_log.map(log => {
