@@ -57,6 +57,8 @@ export default function CameraView() {
         }
     }
 
+    console.log(data)
+
     if (!status?.granted) {
         return (
             <View
