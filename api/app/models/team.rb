@@ -41,7 +41,7 @@ class Team < ApplicationRecord
   end
   
   def activity_log
-    spots.map { |spot| spot.entry }
+    spots.order(created_at: :desc).map { |spot| spot.entry }
   end
   
   def spots_in_past_hour
