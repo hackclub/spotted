@@ -10,6 +10,7 @@ import {
     SafeAreaView,
     Text,
     TouchableOpacity,
+    ScrollView,
     View,
 } from "react-native";
 import * as SecureStore from 'expo-secure-store';
