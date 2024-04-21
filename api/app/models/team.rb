@@ -39,5 +39,9 @@ class Team < ApplicationRecord
   def activity_log
     spots.map { |spot| spot.entry }
   end
+  
+  def spots_in_past_hour
+    spots.where("spots.created_at > ?", 1.hour.ago).pluck(:spotter_id, :spotted_id)
+  end
 end
 
