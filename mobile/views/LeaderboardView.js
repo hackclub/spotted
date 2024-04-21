@@ -25,11 +25,36 @@ export default function LeaderboardView () {
         <View style={{
             flex: 1,
             justifyContent: "center",
-            alignContent: "center"
+            alignContent: "center",
         }}>
-            <Text style={{ textAlign: "center" }}>
-                Leaderboard
-            </Text>
+            <ScrollView style={{
+                paddingHorizontal: 12
+            }}>
+                <View style={{
+                    paddingTop: 12
+                }}>
+                    <Text style={{ textAlign: "left", fontSize: "30px" }}>{data.name}'s Leaderboard</Text>
+                </View>
+                {
+                    data.leaderboard.map(user => {
+                        return (
+                            <View style={{
+                                paddingTop: 12
+                            }}>
+                                <View style={{
+                                    backgroundColor: "green",
+                                    padding: 12,
+                                    borderRadius: 12,
+                                }}>
+                                    <Text style={{ textAlign: "left", paddingBottom: 12 }}>
+                                       {user.picture} {user.name} - {user.points}
+                                    </Text>
+                                </View>
+                            </View>
+                        )
+                    }
+                )}
+            </ScrollView>
         </View>
     )
 }
