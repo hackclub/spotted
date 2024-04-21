@@ -39,20 +39,26 @@ export default function ActivityView () {
                     <Text style={{ textAlign: "left" }}>Recent activity in</Text>
                     <Text style={{ textAlign: "left", fontSize: "30px" }}>Cal Hacks</Text>
                 </View>
-                <View style={{
-                    paddingTop: 12
-                }}>
-                    <View style={{
-                        backgroundColor: "orange",
-                        padding: 12,
-                        borderRadius: 12,
-                    }}>
-                        <Text style={{ textAlign: "left", paddingBottom: 12 }}>
-                            <Text style={{color: "#BA3939"}}>sampoder</Text> spotted <Text style={{color: "#BA3939"}}>mha</Text>
-                        </Text>
-                        <Image source={{ uri: "https://assets.hackclub.com/hcb-light.png" }} width={"100%"} style={{ aspectRatio: 1}} />
-                    </View>
-                </View>
+                {
+                    data.activity_log.map(log => {
+                        return (
+                            <View style={{
+                                paddingTop: 12
+                            }}>
+                                <View style={{
+                                    backgroundColor: "orange",
+                                    padding: 12,
+                                    borderRadius: 12,
+                                }}>
+                                    <Text style={{ textAlign: "left", paddingBottom: 12 }}>
+                                        <Text style={{color: "#BA3939"}}>{log.spotter.name}</Text> {log.action} <Text style={{color: "#BA3939"}}>{log.spotted.name}</Text> {log.ago}
+                                    </Text>
+                                    <Image source={{ uri: log.picture }} width={"100%"} style={{ aspectRatio: 1}} />
+                                </View>
+                            </View>
+                        )
+                    }
+                )}
             </ScrollView>
         </View>
     )

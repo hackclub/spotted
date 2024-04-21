@@ -35,7 +35,7 @@ class Spot < ApplicationRecord
         name: spotted.user.name || spotted.user.email,
         emoji: spotted.user.emoji
       },
-      text: "#{distance_of_time_in_words_to_now created_at} ago",
+      ago: "#{distance_of_time_in_words_to_now created_at} ago",
       action: ["saw", "took a picture of", "found", "spotted"].sample
     }
   end
