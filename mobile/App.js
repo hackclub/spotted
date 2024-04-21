@@ -29,6 +29,9 @@ import {
   DiscoveryDocument,
 } from "expo-auth-session";
 import AuthContext from "./auth";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export const discovery = {
   authorizationEndpoint: `${globalThis.HOST}/oauth/authorize`,
@@ -79,8 +82,7 @@ export default function App() {
       }).then(async (res) => {
         const body = await res.json();
         if (!res.ok) {
-          console.log(body)
-          if (body.error === "invalid_auth") {
+          if (body.error === "invalid_auth" || body == undefined) {
             setToken("");
             return;
           } else {
@@ -184,6 +186,7 @@ export default function App() {
             Screen1={HomeView}
             Screen2={CameraView}
             Screen3={LeaderboardView}
+onBadData={() => promptAsync()}
           />
       </SWRConfig>
     </AuthContext.Provider>

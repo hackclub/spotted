@@ -11,7 +11,7 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  default_url_options[:host] = "spotted.underpass.clb.li"
+  default_url_options[:host] = "sourdough.local:3001"
 
   # Show full error reports.
   config.consider_all_requests_local = true

@@ -9,6 +9,7 @@ import {
     Pressable,
     SafeAreaView,
     Text,
+    Image,
     TouchableOpacity,
     ScrollView,
     View,
@@ -27,7 +28,6 @@ export default function LeaderboardView () {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
-    console.log("ahhhhh")
     setRefreshing(true);
     mutate(`api/v1/teams/${team}`).then(() => {
       setRefreshing(false);
@@ -40,29 +40,29 @@ export default function LeaderboardView () {
             alignContent: "center",
         }}>
             <ScrollView style={{
-                paddingHorizontal: 12
+                paddingHorizontal: 12,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16
             }} refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
-                <View style={{
-                    paddingTop: 12
-                }}>
-                    <Text style={{ textAlign: "left", fontSize: 30 }}>{data?.name}'s Leaderboard</Text>
-                </View>
                 {
-                    data?.leaderboard.map((u, index) => {
+                    data?.leaderboard.sort((a, b) => b.points - a.points).map((u, index) => {
                         return (
                             <View style={{
                                 display: 'flex',
                                 flexDirection: 'row',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                            }}>
+                                gap: 8,
+                                paddingBottom: 12
+                            }} key={index}>
                                 <Image source={{ uri: u.last_spot_image }} style={{
                                     aspectRatio: 1,
                                     borderRadius: 45
                                 }} width={40} />
-                                <Text style={{textAlign: 'center', fontSize: 20, flexGrow: 1}}>
+                                <Text style={{textAlign: 'left', fontSize: 20, flexGrow: 1}}>
                                     {u.name}
                                 </Text>
                                 <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 800}}>

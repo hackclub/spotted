@@ -21,15 +21,13 @@ import AuthContext from "../auth";
 import { FlatList } from 'react-native';
 import useSWR, { preload, useSWRConfig, mutate } from "swr";
 
-export default function ActivityView () {
+export default function ActivityView ({onBadData}) {
     const { token, team } = useContext(AuthContext);
     const { fetcher, mutate } = useSWRConfig();
     const [refreshing, setRefreshing] = useState(false);
     const { data } = useSWR(`api/v1/teams/${team}`);
-    console.log(data);
 
 const onRefresh = useCallback(() => {
-    console.log("ahhhhh")
     setRefreshing(true);
     mutate(`api/v1/teams/${team}`).then(() => {
       setRefreshing(false);
@@ -42,28 +40,19 @@ const onRefresh = useCallback(() => {
             alignContent: "center",
         }}>
             <ScrollView style={{
-                paddingHorizontal: 12
+                paddingHorizontal: 0
             }} refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }>
-                <View style={{
-                    paddingTop: 12
-                }}>
-                    <Text style={{ textAlign: "left" }}>Recent activity in</Text>
-                    <Text style={{ textAlign: "left", fontSize: 30 }}>{data?.name}</Text>
-                </View>
                 {
                     data?.activity_log.map(log => {
                         return (
-                            <View style={{
-                                paddingTop: 12
-                            }}>
+                            <View key={log.picture + log.action + log.spotter.name + Date.now() + "" + (Math.random() * 3000) + ""}>
                                 <View style={{
-                                    backgroundColor: "orange",
-                                    padding: 12,
+                                    paddingVertical: 12,
                                     borderRadius: 12,
                                 }}>
-                                    <Text style={{ textAlign: "left", paddingBottom: 12 }}>
+                                    <Text style={{ textAlign: "left", paddingBottom: 24, fontSize: 18, paddingHorizontal: 12 }}>
                                         <Text style={{color: "#BA3939"}}>{log.spotter.name}</Text> {log.action} <Text style={{color: "#BA3939"}}>{log.spotted.name}</Text> {log.ago}
                                     </Text>
                                     <Image source={{ uri: log.picture }} width={"100%"} style={{ aspectRatio: 1}} />

@@ -61,7 +61,7 @@ const RootStack = createNativeStackNavigator();
 
 
 
-export default function NavView() {
+export default function NavView({ onBadData }) {
     return (
 
         <NavigationContainer>
@@ -69,7 +69,7 @@ export default function NavView() {
                 headerShown: false
             }}>
                 <RootStack.Group>
-                    <RootStack.Screen name="Home" component={F} />
+                    <RootStack.Screen name="Home" component={() => <F onBadData={onBadData} />} />
                 </RootStack.Group>
                 <RootStack.Group screenOptions={{ presentation: 'modal' }}>
                     <RootStack.Screen name="MyModal" component={M} />
@@ -85,39 +85,52 @@ function M() {
     )
 }
 
-function F({ navigation }) {
+function F({ navigation, onBadData }) {
     StatusBar.setBarStyle("light-content");
     return (
 
         <NavTab.Navigator screenOptions={{
             tabBarStyle: {
-                backgroundColor: "#BA3939"
+                backgroundColor: "#1F90CF",
+                borderTopColor: "#3FC2EB",
+                borderTopWidth: 2,
             },
             headerStyle: {
-                backgroundColor: "#BA3939",
+                backgroundColor: "#1777BD",
             },
             headerTintColor: "white"
+        }} sceneContainerStyle={{
+            backgroundColor: "#E2F8FF"
         }}>
-            <NavTab.Screen name="Activity" component={ActivityView} options={({ route }) => ({
+            <NavTab.Screen name="Recent Spots" component={() => <ActivityView onBadData={onBadData} />} options={({ route }) => ({
                 tabBarIcon: ({ color, size }) => {
-                    return <MaterialCommunityIcons name="chart-timeline-variant" size={size} color={color} />;
+                    return <Entypo name="megaphone" size={size} color={color} />;
                 },
                 tabBarActiveTintColor: 'white',
                 tabBarInactiveTintColor: 'white',
+                tabBarLabelStyle: {
+                    display: "none"
+                }
             })} />
-            <NavTab.Screen name="Camera" component={CameraView} options={({ route }) => ({
+            <NavTab.Screen name="Spotted" component={CameraView} options={({ route }) => ({
                 tabBarIcon: ({ color, size }) => {
                     return <Entypo name="camera" size={size} color={color} />;
                 },
                 tabBarActiveTintColor: 'white',
-                tabBarInactiveTintColor: 'white'
+                tabBarInactiveTintColor: 'white',
+                tabBarLabelStyle: {
+                    display: "none"
+                }
             })} />
-            <NavTab.Screen name="Leaderboard" component={LeaderboardView} options={({ route }) => ({
+            <NavTab.Screen name="Scores" component={LeaderboardView} options={({ route }) => ({
                 tabBarIcon: ({ color, size }) => {
-                    return <MaterialCommunityIcons name="podium" size={size} color={color} />;
+                    return <Entypo name="trophy" size={size} color={color} />;
                 },
                 tabBarActiveTintColor: 'white',
                 tabBarInactiveTintColor: 'white',
+                tabBarLabelStyle: {
+                    display: "none"
+                }
             })} />
         </NavTab.Navigator>
 
