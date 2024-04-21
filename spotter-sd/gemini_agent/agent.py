@@ -7,7 +7,7 @@ import subprocess
 import io
 
 squirrelgetter = Agent(
-    name="squirrelgetter"
+    name="squirrelgetter",
     port=8000,
     seed="squirrelgetter seed",
     endpoint=["http://127.0.0.1:8000/squirrelnum"]
@@ -21,11 +21,11 @@ async def generate_response(model, prompt):
 async def process_image(ctx: Context):
     ctx.logger.info('squirrelgetter online')
 
-    image_url = 'https://cloud-8vxv0s664-hack-club-bot.vercel.app/1squirrel2.jpeg'
-    genai.configure(api_key = 'api key here')
+    # image_url = 'https://cloud-8vxv0s664-hack-club-bot.vercel.app/4squirrel5.jpeg'
+    genai.configure(api_key = 'AIzaSyAbWV1gwiLRxuFFF15SjRUI7IYtVcyfdwA')
 
-    curl_command = f"curl -o image.jpg {image_url}"
-    subprocess.run(curl_command, shell=True)
+    # curl_command = f"curl -o image.jpg {image_url}"
+    # subprocess.run(curl_command, shell=True)
 
     img = PIL.Image.open('image.jpg')
 
@@ -41,3 +41,4 @@ async def process_image(ctx: Context):
 
 if __name__ == "__main__":
     squirrelgetter.run()
+
