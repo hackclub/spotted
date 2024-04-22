@@ -21,6 +21,9 @@ async def process_image(ctx: Context, request):
     image_data = io.BytesIO(request_body)
 
     img = PIL.Image.open(image_data)
+    
+    genai.configure(api_key = 'no more api key womp womp')
+
 
     if img:
         ctx.logger.info('Image fetched successfully')
